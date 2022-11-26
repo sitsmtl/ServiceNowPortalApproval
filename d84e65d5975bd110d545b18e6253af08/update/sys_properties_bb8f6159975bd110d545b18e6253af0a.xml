@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Approver must provide a comment when approving an item (default: no).</description>
+        <ignore_cache>true</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_376096_papro.comment.mandatory.approve</name>
+        <read_roles/>
+        <suffix>comment.mandatory.approve</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-11-20 10:38:18</sys_created_on>
+        <sys_id>bb8f6159975bd110d545b18e6253af0a</sys_id>
+        <sys_name>x_376096_papro.comment.mandatory.approve</sys_name>
+        <sys_package display_value="Portal Approval" source="x_376096_papro">d84e65d5975bd110d545b18e6253af08</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Portal Approval">d84e65d5975bd110d545b18e6253af08</sys_scope>
+        <sys_update_name>sys_properties_bb8f6159975bd110d545b18e6253af0a</sys_update_name>
+        <type>boolean</type>
+        <value>false</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=bb8f6159975bd110d545b18e6253af0a"/>
+</record_update>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function ($scope, $uibModalStack) {
+	$scope.clearFocusListCache = function() {
+		$uibModalStack.clearFocusListCache();
+	};
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description>Based on sp-modal.html (this is statically loaded and can be found via code-search).&#13;
+&#13;
+Example call:&#13;
+var inputOptions = {&#13;
+  message: 'CONFIRM MESSAGE',&#13;
+  text: '',&#13;
+  textPlaceholder: 'Enter a text',&#13;
+  required: true&#13;
+};&#13;
+spModal.open({&#13;
+  title: 'MODAL TITLE',&#13;
+  widget: 'x_376096_papro_prompt',&#13;
+  shared: inputOptions,&#13;
+  backdrop: false, // disable close by click&#13;
+  onSubmit: function () {&#13;
+    if (inputOptions.required || inputOptions.text) {&#13;
+      return $q.resolve({ status: true });&#13;
+    }&#13;
+&#13;
+    return $q.resolve({ status: false, errorMessage: 'Please enter a text' });&#13;
+  }&#13;
+});</description>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>x_376096_papro_prompt</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Portal Approval Prompt</name>
+        <option_schema/>
+        <public>false</public>
+        <roles>snc_external,snc_internal</roles>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-11-20 10:42:41</sys_created_on>
+        <sys_id>da70f5d9975bd110d545b18e6253afa3</sys_id>
+        <sys_name>Portal Approval Prompt</sys_name>
+        <sys_package display_value="Portal Approval" source="x_376096_papro">d84e65d5975bd110d545b18e6253af08</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Portal Approval">d84e65d5975bd110d545b18e6253af08</sys_scope>
+        <sys_update_name>sp_widget_da70f5d9975bd110d545b18e6253afa3</sys_update_name>
+        <template><![CDATA[<div class="form-group">
+  <label for="pxp_confirm_text" ng-if="options.shared.message">
+    <span class="field-decorations">
+      <span ng-if="options.shared.required" class="fa fa-asterisk mandatory" ng-class="{ 'mandatory-filled': options.shared.text.length }" title="Required" style="padding-right: .25em"></span>
+      {{options.shared.message}}
+    </span>
+  </label>
+  <input id="pxp_confirm_text" type="text" class="form-control" placeholder="{{options.shared.textPlaceholder}}"
+	autocomplete="off" aria-invalid="{{options.shared.required && !options.shared.text.length}"
+    ng-model="options.shared.text" ng-required="options.shared.required" ng-blur="clearFocusListCache()" />
+</div>]]></template>
+    </sp_widget>
+</record_update>

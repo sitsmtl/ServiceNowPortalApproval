@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="m2m_sp_dependency_js_include">
+    <m2m_sp_dependency_js_include action="INSERT_OR_UPDATE">
+        <order>100</order>
+        <sp_dependency display_value="Portal Approval">7231b51d975bd110d545b18e6253afc6</sp_dependency>
+        <sp_js_include display_value="Portal Approval">b6c0b11d975bd110d545b18e6253afd3</sp_js_include>
+        <sys_class_name>m2m_sp_dependency_js_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-11-20 10:46:20</sys_created_on>
+        <sys_id>9c717d1d975bd110d545b18e6253afa9</sys_id>
+        <sys_name>Portal Approval.Portal Approval</sys_name>
+        <sys_package display_value="Portal Approval" source="x_376096_papro">d84e65d5975bd110d545b18e6253af08</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Portal Approval">d84e65d5975bd110d545b18e6253af08</sys_scope>
+        <sys_update_name>m2m_sp_dependency_js_include_9c717d1d975bd110d545b18e6253afa9</sys_update_name>
+    </m2m_sp_dependency_js_include>
+</record_update>

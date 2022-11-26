@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_js_include">
+    <sp_js_include action="INSERT_OR_UPDATE">
+        <display_name>Portal Approval</display_name>
+        <source>local</source>
+        <sys_class_name>sp_js_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-11-20 10:43:45</sys_created_on>
+        <sys_id>b6c0b11d975bd110d545b18e6253afd3</sys_id>
+        <sys_name>Portal Approval</sys_name>
+        <sys_package display_value="Portal Approval" source="x_376096_papro">d84e65d5975bd110d545b18e6253af08</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Portal Approval">d84e65d5975bd110d545b18e6253af08</sys_scope>
+        <sys_ui_script display_value="x_376096_papro.ui_inject">8d5fe119975bd110d545b18e6253aff3</sys_ui_script>
+        <sys_update_name>sp_js_include_b6c0b11d975bd110d545b18e6253afd3</sys_update_name>
+        <url/>
+    </sp_js_include>
+</record_update>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description/>
+        <global>false</global>
+        <ignore_in_now_experience>false</ignore_in_now_experience>
+        <name>x_376096_papro.uibmodal_watcher</name>
+        <script><![CDATA[/*
+Copyright (c) 2022 Markus Kraus
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+var x_376096_papro=x_376096_papro||{};x_376096_papro.uibmodal_watcher=(function(){"use strict";var a;return x_376096_papro.uibmodal_watcher||(a=[],setTimeout(function(){this.angular.module("ui.bootstrap.modal").config(["$provide",function(t){t.decorator("$uibModalStack",["$delegate",function(r){var e=r.dismiss;return r.dismiss=function(){e.apply(r,arguments);for(var t=0,o=a.length;t<o;t++)if(a[t])try{a[t].apply(null,arguments)}catch(t){console.log(t)}else a.splice(t,1),t--,o--},r}])}])}),{register:function(o){return a.push(o),function(){var t=a.indexOf(o);-1!==t&&delete a[t]}},type:"uibmodal_watcher"})})();]]></script>
+        <script_name>uibmodal_watcher</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-11-20 10:36:56</sys_created_on>
+        <sys_id>b72fed19975bd110d545b18e6253af6c</sys_id>
+        <sys_name>x_376096_papro.uibmodal_watcher</sys_name>
+        <sys_package display_value="Portal Approval" source="x_376096_papro">d84e65d5975bd110d545b18e6253af08</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Portal Approval">d84e65d5975bd110d545b18e6253af08</sys_scope>
+        <sys_update_name>sys_ui_script_b72fed19975bd110d545b18e6253af6c</sys_update_name>
+        <ui_type>1</ui_type>
+        <use_scoped_format>true</use_scoped_format>
+    </sys_ui_script>
+</record_update>
