@@ -26,7 +26,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-var x_376096_papro=x_376096_papro||{};x_376096_papro.uibmodal_watcher=(function(){"use strict";var a;return x_376096_papro.uibmodal_watcher||(a=[],setTimeout(function(){this.angular.module("ui.bootstrap.modal").config(["$provide",function(t){t.decorator("$uibModalStack",["$delegate",function(r){var e=r.dismiss;return r.dismiss=function(){e.apply(r,arguments);for(var t=0,o=a.length;t<o;t++)if(a[t])try{a[t].apply(null,arguments)}catch(t){console.log(t)}else a.splice(t,1),t--,o--},r}])}])}),{register:function(o){return a.push(o),function(){var t=a.indexOf(o);-1!==t&&delete a[t]}},type:"uibmodal_watcher"})})();]]></script>
+var x_376096_papro=x_376096_papro||{};x_376096_papro.uibmodal_watcher=(function(){"use strict";if(x_376096_papro.uibmodal_watcher)return x_376096_papro.uibmodal_watcher;var e=[];return setTimeout(function(){this.angular.module("ui.bootstrap.modal").config(["$provide",function(r){r.decorator("$uibModalStack",["$delegate",function(o){var a=o.dismiss;return o.dismiss=function(){a.apply(o,arguments);for(var r=0,t=e.length;r<t;r++)if(e[r])try{e[r].apply(null,arguments)}catch(r){console.log(r)}else e.splice(r,1),r--,t--},o}])}])}),{register:function(t){return e.push(t),function(){var r=e.indexOf(t);-1!==r&&delete e[r]}},type:"uibmodal_watcher"}})();]]></script>
         <script_name>uibmodal_watcher</script_name>
         <sys_class_name>sys_ui_script</sys_class_name>
         <sys_created_by>admin</sys_created_by>
