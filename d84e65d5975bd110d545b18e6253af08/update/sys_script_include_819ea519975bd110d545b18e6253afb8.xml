@@ -7,28 +7,7 @@
         <client_callable>true</client_callable>
         <description/>
         <name>PortalApprovalUtilClient</name>
-        <script><![CDATA[/*
-Copyright (c) 2022 Markus Kraus
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-/* global global, gs */
+        <script><![CDATA[/* global global, gs */
 /* global Class, GlideRecordSecure, GlideStringUtil */
 /* eslint no-undef: "error" */
 var PortalApprovalUtilClient = Class.create();
@@ -38,7 +17,7 @@ PortalApprovalUtilClient.prototype = Object.extendsObject(global.AbstractAjaxPro
 	},
 	
 	getConfig: function () {
-		var result = {
+		let result = {
 			reject_comment_mandatory: gs.getProperty('x_376096_papro.comment.mandatory.reject') == 'true',
 			approve_comment_mandatory: gs.getProperty('x_376096_papro.comment.mandatory.approve') == 'true',
 			always_confirm: gs.getProperty('x_376096_papro.comment.show_always') == 'true'
@@ -48,23 +27,23 @@ PortalApprovalUtilClient.prototype = Object.extendsObject(global.AbstractAjaxPro
 	},
 	
 	setApprovalState: function () {
-		var result = {
+		let result = {
 			status: 'error',
 			message: ''
 		};
 		
-		var sysId = this.getParameter('sys_id');
-		var comment = this.getParameter('comment');
-		var state = this.getParameter('state');
+		const sysId = this.getParameter('sys_id');
+		const comment = this.getParameter('comment');
+		const state = this.getParameter('state');
 		if (GlideStringUtil.isEligibleSysID(sysId) && (state == 'approved' || state == 'rejected')) {				
-			var approvalGr = new GlideRecordSecure('sysapproval_approver');
+			let approvalGr = new GlideRecordSecure('sysapproval_approver');
 			approvalGr.addQuery('sys_id', sysId);
 			approvalGr.setLimit(1);
 			approvalGr.query();
 			if (approvalGr.next()) {
 				if (approvalGr.state == 'requested') {
-					var commentMandatoryOnApprove = gs.getProperty('x_376096_papro.comment.mandatory.approve') == 'true';
-					var commentMandatoryOnReject = gs.getProperty('x_376096_papro.comment.mandatory.reject') == 'true';
+					let commentMandatoryOnApprove = gs.getProperty('x_376096_papro.comment.mandatory.approve') == 'true';
+					let commentMandatoryOnReject = gs.getProperty('x_376096_papro.comment.mandatory.reject') == 'true';
 					if (state == 'approved' && !comment && commentMandatoryOnApprove) {
 						result.message = gs.getMessage('x_376096_papro_approve_comment_mandatory');
 					} else if (state == 'rejected' && !comment && commentMandatoryOnReject) {
@@ -74,7 +53,7 @@ PortalApprovalUtilClient.prototype = Object.extendsObject(global.AbstractAjaxPro
 						approvalGr.comments = comment;
 
 						// if a business rule / data policy aborts the action, .update() will return null
-						var success = approvalGr.update() != null;
+						const success = approvalGr.update() != null;
 						if (success) {
 							result.status = 'success';
 						} else {
@@ -100,10 +79,13 @@ PortalApprovalUtilClient.prototype = Object.extendsObject(global.AbstractAjaxPro
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2022-11-20 10:35:26</sys_created_on>
         <sys_id>819ea519975bd110d545b18e6253afb8</sys_id>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>PortalApprovalUtilClient</sys_name>
         <sys_package display_value="Portal Approval" source="x_376096_papro">d84e65d5975bd110d545b18e6253af08</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Portal Approval">d84e65d5975bd110d545b18e6253af08</sys_scope>
         <sys_update_name>sys_script_include_819ea519975bd110d545b18e6253afb8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-04-22 10:16:19</sys_updated_on>
     </sys_script_include>
 </record_update>

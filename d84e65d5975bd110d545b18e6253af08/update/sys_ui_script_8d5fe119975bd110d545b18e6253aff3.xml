@@ -5,38 +5,233 @@
         <global>false</global>
         <ignore_in_now_experience>false</ignore_in_now_experience>
         <name>x_376096_papro.approval_inject</name>
-        <script><![CDATA[/*
-Copyright (c) 2022 Markus Kraus
+        <script><![CDATA[var x_376096_papro = x_376096_papro || {};
+x_376096_papro.approval_inject = (function() {
+	"use strict";
+	/* global setTimeout */
+	/* eslint no-undef: "error" */
+	if (x_376096_papro.approval_inject) {
+		return x_376096_papro.approval_inject;
+	}
+	
+	var targetWidgets = [
+		// '<Sys ID of Target Widget>', // [widget-id] <Target Widget Name> (<used page>)
+		'f37aa302cb70020000f8d856634c9cfc', // [] Approvals (approvals)
+		'33442352cb30020000f8d856634c9c3f', // [] Approval Info (approval)
+		'0d4be14b87473300926420eac5cb0b6c', // [] CSM Approval Info (csm_approval)
+		'69deca02675003004b8d794717415a9b', // [sc_request_and_approvals] Requests and Approvals (sc_landing)
+	];
+	
+	setTimeout(function () {
+		var $window = this;
+		var cache = {};
+		var observer = new $window.MutationObserver(function (mutations) {
+			for (var i = 0; i < mutations.length; i++) {
+				var mutation = mutations[i];
+				if (mutation.addedNodes) {
+					for (var j = 0; j < mutation.addedNodes.length; j++) {
+						var node = mutation.addedNodes[j];
+						if (node.classList && !node.classList.contains('papproval-injected')) {
+							for (var k = 0; k < targetWidgets.length; k++) {
+								if (node.classList.contains('v' + targetWidgets[k])) {
+									node.classList.add('papproval-injected');
+									new ApprovalInjector($window, node, cache);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+		
+		observer.observe($window.document, {
+			childList: true,
+			subtree: true
+		});
+	});
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+	return {
+		type: 'approval_inject'
+	};
+	
+	function ApprovalInjector($window, node, cache) {
+		var element = $window.angular.element(node);
+		var $scope = element.scope();
+		
+		var $injector = element.injector();
+		var $q = $injector.get('$q');
+		var i18n = $injector.get('i18n');
+		var $log = $injector.get('$log');
+		var spUtil = $injector.get('spUtil');
+		var spModal = $injector.get('spModal');
+		var spUIActionsExecuter = $injector.get('spUIActionsExecuter');
+		
+		if (!('getConfig' in cache)) {
+			cache['getConfig'] = (function () {
+				var deferred = $q.defer();
+				
+				var ga = new $window.GlideAjax('PortalApprovalUtilClient').setScope('x_376096_papro');
+				ga.addParam('sysparm_name', 'getConfig');
+				ga.getXMLAnswer(function (answer) {
+					try {
+						if (answer) {
+							deferred.resolve(JSON.parse(answer));
+						} else {
+							throw new Error('Failed to load Config');
+						}
+					} catch (e) {
+						deferred.reject();
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+						$log.error(e, answer);
+						if ($window.g_user_is_admin) {
+							spUtil.addErrorMessage(e.message);
+						}
+					}
+				});
+				
+				return function () {
+					return deferred.promise;
+				};
+			})();
+		}
+		
+		var approvalInProgress = false;
+		var ESIGNATURE_PARAMS;
+		var ESIGNATURE = {
+			'approved': 'cbfe291147220100ba13a5554ee4904d',
+			'rejected': '580f711147220100ba13a5554ee4904b'
+		};
+		
+		var messageKeys = {
+			'MODAL_TITLE_APPROVE': 'x_376096_papro_modal_title_approve',
+			'MODAL_TITLE_REJECT': 'x_376096_papro_modal_title_reject',
+			'MODAL_MESSAGE_MANDATORY': 'x_376096_papro_modal_message',
+			'MODAL_MESSAGE_OPTIONAL': 'x_376096_papro_modal_message_optional',
+			'MODAL_COMMENT_MANDATORY_ERROR': 'x_376096_papro_modal_comment_mandatory'
+		};
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-var x_376096_papro=x_376096_papro||{};x_376096_papro.approval_inject=(function(){"use strict";if(x_376096_papro.approval_inject)return x_376096_papro.approval_inject;var _=["f37aa302cb70020000f8d856634c9cfc","33442352cb30020000f8d856634c9c3f","0d4be14b87473300926420eac5cb0b6c","69deca02675003004b8d794717415a9b"];return setTimeout(function(){var n=this,i={};new n.MutationObserver(function(e){for(var a=0;a<e.length;a++){var r=e[a];if(r.addedNodes)for(var t=0;t<r.addedNodes.length;t++){var o=r.addedNodes[t];if(o.classList&&!o.classList.contains("papproval-injected"))for(var s=0;s<_.length;s++)if(o.classList.contains("v"+_[s])){o.classList.add("papproval-injected"),new p(n,o,i);break}}}}).observe(n.document,{childList:!0,subtree:!0})}),{type:"approval_inject"};function p(p,e,a){var r,e=p.angular.element(e),d=e.scope(),e=e.injector(),c=e.get("$q"),l=e.get("i18n"),u=e.get("$log"),m=e.get("spUtil"),g=e.get("spModal"),v=e.get("spUIActionsExecuter");"getConfig"in a||(a.getConfig=(r=c.defer(),(e=new p.GlideAjax("PortalApprovalUtilClient").setScope("x_376096_papro")).addParam("sysparm_name","getConfig"),e.getXMLAnswer(function(a){try{if(!a)throw new Error("Failed to load Config");r.resolve(JSON.parse(a))}catch(e){r.reject(),u.error(e,a),p.g_user_is_admin&&m.addErrorMessage(e.message)}}),function(){return r.promise}));var f,t=!1,A={approved:"cbfe291147220100ba13a5554ee4904d",rejected:"580f711147220100ba13a5554ee4904b"},M={MODAL_TITLE_APPROVE:"x_376096_papro_modal_title_approve",MODAL_TITLE_REJECT:"x_376096_papro_modal_title_reject",MODAL_MESSAGE_MANDATORY:"x_376096_papro_modal_message",MODAL_MESSAGE_OPTIONAL:"x_376096_papro_modal_message_optional",MODAL_COMMENT_MANDATORY_ERROR:"x_376096_papro_modal_comment_mandatory"};function o(o,s,n){var i,_;t||(t=!0,i=o,_=c.defer(),a.getConfig().then(function(e){var r,t,o,a="approved"==i,s=a?e.approve_comment_mandatory:e.reject_comment_mandatory;s||e.always_confirm?(r=a?M.MODAL_TITLE_APPROVE:M.MODAL_TITLE_REJECT,t=s?M.MODAL_MESSAGE_MANDATORY:M.MODAL_MESSAGE_OPTIONAL,o=M.MODAL_COMMENT_MANDATORY_ERROR,l.getMessages([r,t,o],function(e){var a={message:e[t],text:"",textPlaceholder:"",required:s};g.open({title:e[r],widget:"x_376096_papro_prompt",shared:a,backdrop:!1,onSubmit:function(){return!a.required||a.text?c.resolve({status:!0}):c.resolve({status:!1,errorMessage:e[o]})}}).then(_.resolve,_.reject)})):_.resolve()},_.reject),_.promise.then(function(e){var a,r,t=c.defer();return n?(a=x_376096_papro.uibmodal_watcher.register(function(){a(),t.reject()}),v.executeFormAction(A[o],"sysapproval_approver",s,[{name:"comments",value:e}],"",f).then(t.resolve,t.reject)):((r=new p.GlideAjax("PortalApprovalUtilClient").setScope("x_376096_papro")).addParam("sysparm_name","setApprovalState"),r.addParam("sys_id",s),r.addParam("state",o),r.addParam("comment",e),r.getXMLAnswer(function(a){try{var e=JSON.parse(a);if("success"!=e.status)throw new Error(e.message);m.update(d),t.resolve()}catch(e){t.reject(),u.error(e,a),p.g_user_is_admin&&m.addErrorMessage(e.message)}})),t.promise}).finally(function(){t=!1}))}l.getMessages(Object.values(M),p.angular.noop),d.approve=o.bind(this,"approved"),d.reject=o.bind(this,"rejected"),d.data.esignature&&(f={username:d.data.esignature.username,userSysId:d.data.esignature.userSysId}),d.c&&(d.c.action=function(e){o(e,d.data.sys_id,d.data.esignature.e_sig_required)})}})();]]></script>
+		// pre-load the messages
+		i18n.getMessages(Object.values(messageKeys), $window.angular.noop);
+		
+		$scope.approve = handleApproval.bind(this, 'approved');
+		$scope.reject = handleApproval.bind(this, 'rejected');
+		if ($scope.data.esignature) {
+			ESIGNATURE_PARAMS = {
+				username: $scope.data.esignature.username,
+				userSysId: $scope.data.esignature.userSysId
+			};
+		}
+		
+		// only relevant for Widget 'Approval Info' (/sp?id=approval&sys_id=...)
+		if ($scope.c) {
+			$scope.c.action = function (action) {
+				handleApproval(action, $scope.data.sys_id, $scope.data.esignature.e_sig_required);
+			};
+		}
+		
+		function handleApproval(action, sys_id, requireEsignatureApproval) {
+			if (approvalInProgress) {
+				return;
+			}
+
+			approvalInProgress = true;
+			getApprovalComment(action).then(function (comment) {
+				var deferred = $q.defer();
+
+				if (requireEsignatureApproval) {
+					var unregister = x_376096_papro.uibmodal_watcher.register(function () {
+						unregister();
+						deferred.reject();
+					});
+					
+					spUIActionsExecuter.executeFormAction(ESIGNATURE[action], 'sysapproval_approver', sys_id, [{ name: 'comments', value: comment }] , '', ESIGNATURE_PARAMS).then(deferred.resolve, deferred.reject);
+				} else {
+					var ga = new $window.GlideAjax('PortalApprovalUtilClient').setScope('x_376096_papro');
+					ga.addParam('sysparm_name', 'setApprovalState');
+					ga.addParam('sys_id', sys_id);
+					ga.addParam('state', action);
+					ga.addParam('comment', comment);
+					ga.getXMLAnswer(function (answer) {
+						try {
+							var result = JSON.parse(answer);
+							if (result.status == 'success') {
+								spUtil.update($scope);
+								deferred.resolve();
+							} else {
+								throw new Error(result.message);
+							}
+						} catch (e) {
+							deferred.reject();
+
+							$log.error(e, answer);
+							if ($window.g_user_is_admin) {
+								spUtil.addErrorMessage(e.message);
+							}
+						}
+					});
+				}
+
+				return deferred.promise;
+			})['finally'](function () {
+				approvalInProgress = false;
+			});
+		}
+	
+		function getApprovalComment(action) {
+			var deferred = $q.defer();
+			cache.getConfig().then(function (config) {
+				var isApprove = action == 'approved';
+				var commentRequired = isApprove ? config.approve_comment_mandatory : config.reject_comment_mandatory;
+				if (!commentRequired && !config.always_confirm) {
+					// no comment is required, the confirm popup is not desired
+					deferred.resolve();
+				} else {
+					var modalTitle = isApprove ? messageKeys.MODAL_TITLE_APPROVE : messageKeys.MODAL_TITLE_REJECT;
+					var modalMessage = commentRequired ? messageKeys.MODAL_MESSAGE_MANDATORY : messageKeys.MODAL_MESSAGE_OPTIONAL;
+					var errorText = messageKeys.MODAL_COMMENT_MANDATORY_ERROR;
+					i18n.getMessages([modalTitle, modalMessage, errorText], function (messages) {
+						var inputOptions = {
+							message: messages[modalMessage],
+							text: '',
+							textPlaceholder: '',
+							required: commentRequired
+						};
+
+						spModal.open({
+							title: messages[modalTitle],
+							widget: 'x_376096_papro_prompt',
+							shared: inputOptions,
+							backdrop: false, // disable close by click
+							onSubmit: function () {
+								if (!inputOptions.required || inputOptions.text) {
+									return $q.resolve({ status: true });
+								}
+
+								return $q.resolve({ status: false, errorMessage: messages[errorText] });
+							}
+						}).then(function () { deferred.resolve(inputOptions.text); }, deferred.reject);
+					});
+				}
+			}, deferred.reject);
+
+			return deferred.promise;
+		}
+	}
+})();]]></script>
         <script_name>approval_inject</script_name>
         <sys_class_name>sys_ui_script</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2022-11-20 10:37:54</sys_created_on>
         <sys_id>8d5fe119975bd110d545b18e6253aff3</sys_id>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>x_376096_papro.approval_inject</sys_name>
         <sys_package display_value="Portal Approval" source="x_376096_papro">d84e65d5975bd110d545b18e6253af08</sys_package>
         <sys_policy/>
         <sys_scope display_value="Portal Approval">d84e65d5975bd110d545b18e6253af08</sys_scope>
         <sys_update_name>sys_ui_script_8d5fe119975bd110d545b18e6253aff3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-04-22 15:10:07</sys_updated_on>
         <ui_type>1</ui_type>
         <use_scoped_format>true</use_scoped_format>
     </sys_ui_script>

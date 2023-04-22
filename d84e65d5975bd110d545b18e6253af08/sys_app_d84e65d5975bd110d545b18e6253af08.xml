@@ -6,7 +6,7 @@
         <guided_setup_guid/>
         <hide_on_ui>false</hide_on_ui>
         <installed_as_dependency>false</installed_as_dependency>
-        <js_level>helsinki_es5</js_level>
+        <js_level>es_latest</js_level>
         <licensable>true</licensable>
         <license/>
         <license_category>none</license_category>
@@ -29,13 +29,16 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2022-11-20 10:32:24</sys_created_on>
         <sys_id>d84e65d5975bd110d545b18e6253af08</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-04-22 10:15:25</sys_updated_on>
         <template/>
         <trackable>true</trackable>
         <uninstall_blocked>false</uninstall_blocked>
         <user_role display_value="admin" name="admin">2831a114c611228501d4ea6c309d626d</user_role>
         <vendor/>
         <vendor_prefix/>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </sys_app>
     <sys_translated_text action="delete_multiple" query="documentkey=d84e65d5975bd110d545b18e6253af08"/>
 </record_update>
