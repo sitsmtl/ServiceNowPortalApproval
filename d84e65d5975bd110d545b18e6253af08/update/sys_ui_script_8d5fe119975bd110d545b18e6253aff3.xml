@@ -159,7 +159,8 @@ x_376096_papro.approval_inject = (function() {
 								spUtil.update($scope);
 								deferred.resolve();
 							} else {
-								throw new Error(result.message);
+								spUtil.addErrorMessage(result.message);
+								deferred.reject();
 							}
 						} catch (e) {
 							deferred.reject();
@@ -224,14 +225,14 @@ x_376096_papro.approval_inject = (function() {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2022-11-20 10:37:54</sys_created_on>
         <sys_id>8d5fe119975bd110d545b18e6253aff3</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_name>x_376096_papro.approval_inject</sys_name>
         <sys_package display_value="Portal Approval" source="x_376096_papro">d84e65d5975bd110d545b18e6253af08</sys_package>
         <sys_policy/>
         <sys_scope display_value="Portal Approval">d84e65d5975bd110d545b18e6253af08</sys_scope>
         <sys_update_name>sys_ui_script_8d5fe119975bd110d545b18e6253aff3</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-04-22 15:10:07</sys_updated_on>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-03-05 13:57:40</sys_updated_on>
         <ui_type>1</ui_type>
         <use_scoped_format>true</use_scoped_format>
     </sys_ui_script>

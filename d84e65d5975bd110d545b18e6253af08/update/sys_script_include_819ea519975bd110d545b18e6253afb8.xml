@@ -40,7 +40,7 @@ PortalApprovalUtilClient.prototype = Object.extendsObject(global.AbstractAjaxPro
 			approvalGr.addQuery('sys_id', sysId);
 			approvalGr.setLimit(1);
 			approvalGr.query();
-			if (approvalGr.next()) {
+			if (approvalGr.next() && approvalGr.state.canWrite() && approvalGr.comments.canWrite()) {
 				if (approvalGr.state == 'requested') {
 					let commentMandatoryOnApprove = gs.getProperty('x_376096_papro.comment.mandatory.approve') == 'true';
 					let commentMandatoryOnReject = gs.getProperty('x_376096_papro.comment.mandatory.reject') == 'true';
@@ -79,13 +79,13 @@ PortalApprovalUtilClient.prototype = Object.extendsObject(global.AbstractAjaxPro
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2022-11-20 10:35:26</sys_created_on>
         <sys_id>819ea519975bd110d545b18e6253afb8</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>PortalApprovalUtilClient</sys_name>
         <sys_package display_value="Portal Approval" source="x_376096_papro">d84e65d5975bd110d545b18e6253af08</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Portal Approval">d84e65d5975bd110d545b18e6253af08</sys_scope>
         <sys_update_name>sys_script_include_819ea519975bd110d545b18e6253afb8</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-04-22 10:16:19</sys_updated_on>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-03-05 13:32:22</sys_updated_on>
     </sys_script_include>
 </record_update>
